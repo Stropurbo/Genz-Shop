@@ -109,9 +109,16 @@ SWAGGER_SETTINGS = {
     },
 }
 
-
-
-
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('dbname'),
+        'USER': config('user'),
+        'PASSWORD': config('password'),
+        'HOST': config('host'),
+        'PORT': config('port'),
+    }
+}
 
 
 cloudinary.config( 
