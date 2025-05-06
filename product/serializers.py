@@ -17,11 +17,11 @@ class ProductImageSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
-    category = CategorySerializer() 
+    # category = CategorySerializer() 
 
-    # category = serializers.PrimaryKeyRelatedField(
-    #     queryset=Category.objects.all()
-    # )
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all()
+    )
 
     class Meta:
         model = Product
