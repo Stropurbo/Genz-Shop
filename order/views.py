@@ -1,19 +1,18 @@
-from django.shortcuts import redirect, render
-from requests import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, RetrieveModelMixin
-from rest_framework.viewsets import GenericViewSet
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
+from order.models import Cart, CartItem, Order, OderItem
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from order import serializers as Allsz
-from order.models import Cart, CartItem, Order, OrderItem
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
-from rest_framework.views import APIView
-from rest_framework.decorators import api_view
-from sslcommerz_lib import SSLCOMMERZ 
-from django.conf import settings as projectsetting
-
 from order.services import OrderServices
-
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.decorators import api_view
+from sslcommerz_lib import SSLCOMMERZ
+from django.conf import settings as projectsetting
+from rest_framework.views import APIView
 class CartViewSet(CreateModelMixin,RetrieveModelMixin, DestroyModelMixin, GenericViewSet):
     serializer_class = Allsz.CartSerializer
     permission_classes = [IsAuthenticated]
@@ -32,8 +31,7 @@ class CartViewSet(CreateModelMixin,RetrieveModelMixin, DestroyModelMixin, Generi
     
     def perform_create(self, serializer):
         serializer.save(user = self.request.user)
-
-    
+        
 class CartItemViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch','delete']
     def get_serializer_class(self):
@@ -71,7 +69,7 @@ class OrderViewSet(ModelViewSet):
             
     def get_permissions(self):
         if self.action in ['update_status', 'destroy']:
-            return [IsAdminUser]
+            return [IsAdminUser()]
         return [IsAuthenticated()]
 
     def get_serializer_class(self):
@@ -99,7 +97,7 @@ class HasOrderProduct(APIView):
 
     def get(self, request, product_id):
         user = request.user
-        has_ordered = OrderItem.objects.filter(order__user=user, product_id=product_id).exists()
+        has_ordered = OderItem.objects.filter(order__user=user, product_id=product_id).exists()
         return Response({"hasOrder": has_ordered})
     
 

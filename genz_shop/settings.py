@@ -134,7 +134,7 @@ cloudinary.config(
     secure=True
 )
 
-AUTH_USER_MODEL = 'user.CustomUser'
+AUTH_USER_MODEL = 'user.User'
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
@@ -166,7 +166,7 @@ FRONTEND_URL = config('FRONTEND_URL')
 DJOSER = {
     'EMAIL_FRONTEND_PROTOCOL' : config('FRONTEND_PROTOCOL'),
     'EMAIL_FRONTEND_DOMAIN': config('FRONTEND_DOMAIN'),
-    'EMAIL_FRONTEND_SITE_NAME': 'SciMart',
+    'EMAIL_FRONTEND_SITE_NAME': 'GenZ',
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',

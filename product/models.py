@@ -1,8 +1,8 @@
 from django.db import models
-from cloudinary.models import CloudinaryField
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from product.validators import validate_file_size
+from cloudinary.models import CloudinaryField
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -10,7 +10,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -28,8 +28,8 @@ class ProductImage(models.Model):
     image = CloudinaryField('image')
 
 class Review(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     ratings = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     comment = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -37,3 +37,5 @@ class Review(models.Model):
     
     def __str__(self):
         return f'Review by {self.user.first_name} on  {self.product.name}'
+
+

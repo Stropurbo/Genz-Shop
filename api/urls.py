@@ -1,22 +1,24 @@
 from django.urls import path, include
+from product.views import ProductViewset, CategoryViewSet, ReviewViewSet, ProductImageViewSet
+from order.views import CartViewSet, CartItemViewSet, OrderViewSet
 from rest_framework_nested import routers
-from order.views import CartItemViewSet, CartViewSet, HasOrderProduct, OrderViewSet, initiate_payment, payment_cancel, payment_fail, payment_success
-from product.views import ProductImageViewSet, ProductViewSet, CategoryViewSet, ReviewViewSet
+from order.views import initiate_payment,payment_success,payment_cancel, payment_fail, HasOrderProduct
 
 router = routers.DefaultRouter()
-router.register("products", ProductViewSet, basename="products")
-router.register("category", CategoryViewSet, basename="category")
-router.register("carts", CartViewSet, basename="carts")
-router.register("orders", OrderViewSet, basename="orders")
+router.register('products', ProductViewset, basename="products")
+router.register('category', CategoryViewSet)
+router.register('carts', CartViewSet, basename="carts")
+router.register('orders', OrderViewSet, basename="orders")
 
-product_router = routers.NestedDefaultRouter(router, "products", lookup="product")
-product_router.register('images', ProductImageViewSet, basename='product-images')
+product_router = routers.NestedDefaultRouter(router, 'products', lookup='product')
 product_router.register('review', ReviewViewSet, basename='product-review')
-
+product_router.register('images', ProductImageViewSet, basename='product-images')
 
 cart_router = routers.NestedDefaultRouter(router, 'carts', lookup='cart')
-cart_router.register('items', CartItemViewSet, basename='cart-item')
+cart_router.register('items', CartItemViewSet, basename="cart-item")
 
+
+# urlpatterns = router.urls
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -31,4 +33,3 @@ urlpatterns = [
     path('has_order/<int:product_id>/', HasOrderProduct.as_view()),
 
 ]
-
