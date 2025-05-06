@@ -5,7 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
 from product.filters import ProductFilter
 from rest_framework.filters import SearchFilter, OrderingFilter
-from api.permissions import IsAdminOrReadOnly
+from product.permissions import IsAdminOrReadOnly
 from product.permissions import IsAuthorOrReadonly
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.exceptions import PermissionDenied
