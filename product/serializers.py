@@ -4,10 +4,14 @@ from product.models import Category,Product, Review, ProductImage
 from django.contrib.auth import get_user_model
 
 class CategorySerializer(serializers.ModelSerializer):
-    product_count = serializers.IntegerField(read_only = True)
+    product_count = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
         fields = ['id', 'name', 'description', 'product_count']
+
+    def get_product_count(self, obj):
+        return getattr(obj, 'product_count', 0)
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -19,7 +23,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class ProductSerializers(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
     price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
-    category = CategorySerializer()
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
     
     class Meta:
         model = Product

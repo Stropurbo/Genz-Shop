@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from order.models import Cart, CartItem, Order,OderItem
+from order.models import Cart, CartItem, Order,OrderItem
 from product.models import Product
 from order.services import OrderServices
 
@@ -19,24 +19,30 @@ class AddCartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = ['id', 'product_id', 'quantity']
 
+
     def save(self, **kwargs):
         cart_id = self.context['cart_id']
         product_id = self.validated_data['product_id']
         quantity = self.validated_data['quantity']
 
+        if not Cart.objects.filter(id=cart_id).exists():
+            from users.models import User
+            user = User.objects.get(id=self.context['user_id'])
+            cart = Cart.objects.create(id=cart_id, user=user)
+        else:
+            cart = Cart.objects.get(id=cart_id)
+
         try:
-            cart_item = CartItem.objects.get(cart_id=cart_id, product_id=product_id)
+            cart_item = CartItem.objects.get(cart=cart, product_id=product_id)
             cart_item.quantity += quantity
             cart_item.save()
             self.instance = cart_item
         except CartItem.DoesNotExist:
-            product = Product.objects.get(pk=product_id) 
-            self.instance = CartItem.objects.create(
-            cart_id=cart_id,
-            product=product,          
-            quantity=quantity
-        )
+            product = Product.objects.get(pk=product_id)
+            self.instance = CartItem.objects.create(cart=cart, product=product, quantity=quantity)
+
         return self.instance
+
     
     def validate_product_id(self, value):
         if not Product.objects.filter(pk = value).exists():
@@ -92,6 +98,7 @@ class CreateOrderSerializer(serializers.Serializer):
             return order
         except ValueError as e:
             raise serializers.ValidationError(str(e))
+
   
     def to_representation(self, instance):
         return OrderSerializer(instance).data
@@ -100,7 +107,7 @@ class CreateOrderSerializer(serializers.Serializer):
 class OrderItemSerializer(serializers.ModelSerializer):
     product = SimpleProductSerializer()
     class Meta:
-        model = OderItem
+        model = OrderItem
         fields = ['id', 'product', 'price', 'quantity', 'total_price']
 
 class UpdateOrderSerializer(serializers.ModelSerializer):

@@ -5,7 +5,7 @@ from product.validators import validate_file_size
 from cloudinary.models import CloudinaryField
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
 
     def __str__(self):

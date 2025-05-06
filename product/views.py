@@ -22,25 +22,6 @@ class ProductViewset(ModelViewSet):
     def get_queryset(self):
         return Product.objects.prefetch_related('images').all()
 
-    @swagger_auto_schema(
-            operation_summary="Retrive a list of product"
-    )
-    def list(self, request, *args, **kwargs):
-        """Retrive all the products"""
-        return super().list(request, *args, **kwargs)
-
-    @swagger_auto_schema(
-     operation_summary= "Create product by admin",
-     operation_description="This allow an admin to create a product",
-     request_body=ProductSerializers,
-     responses={
-         201: ProductSerializers,
-         400: "Bad Request"
-     }
-    )
-    def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
-
 class ProductImageViewSet(ModelViewSet):
     serializer_class = ProductImageSerializer
     permission_classes = [IsAdminOrReadOnly]
@@ -51,9 +32,12 @@ class ProductImageViewSet(ModelViewSet):
         serializer.save(product_id = self.kwargs.get('product_pk'))
 
 class CategoryViewSet(ModelViewSet):
-    queryset = Category.objects.annotate(product_count=Count('products')).all()
     serializer_class = CategorySerializer
     permission_classes = [IsAdminOrReadOnly]
+
+    def get_queryset(self):
+        return Category.objects.annotate(product_count=Count('products'))
+
 
 class ReviewViewSet(ModelViewSet):
     serializer_class = ReviewSerializer

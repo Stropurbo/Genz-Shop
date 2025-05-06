@@ -2,7 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin
-from order.models import Cart, CartItem, Order, OderItem
+from order.models import Cart, CartItem, Order, OrderItem
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from order import serializers as Allsz
 from rest_framework.decorators import action
@@ -65,7 +65,7 @@ class OrderViewSet(ModelViewSet):
         serializer = Allsz.UpdateOrderSerializer(order, data = request.data, partial= True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response({'status': f'Order Status Updated to {request.data['status']}'})
+        return Response({'status': f"Order Status Updated to {request.data['status']}"})
             
     def get_permissions(self):
         if self.action in ['update_status', 'destroy']:
@@ -97,7 +97,7 @@ class HasOrderProduct(APIView):
 
     def get(self, request, product_id):
         user = request.user
-        has_ordered = OderItem.objects.filter(order__user=user, product_id=product_id).exists()
+        has_ordered = OrderItem.objects.filter(order__user=user, product_id=product_id).exists()
         return Response({"hasOrder": has_ordered})
     
 

@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-zu2un4x34&7zlqf_1gqoqv(6^c70lnn61qrul1_8(7-5&la3yw'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [".vercel.app", '127.0.0.1']
 AUTH_USER_MODEL = 'users.User'
@@ -157,7 +157,7 @@ SIMPLE_JWT = {
 DJOSER = {
     'EMAIL_FRONTEND_PROTOCOL' : config('FRONTEND_PROTOCOL'),
     'EMAIL_FRONTEND_DOMAIN': config('FRONTEND_DOMAIN'),
-    'EMAIL_FRONTEND_SITE_NAME': 'SciMart',
+    'EMAIL_FRONTEND_SITE_NAME': 'GenZ',
     'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
     'USERNAME_RESET_CONFIRM_URL': 'username/reset/confirm/{uid}/{token}',
     'ACTIVATION_URL': 'activate/{uid}/{token}',

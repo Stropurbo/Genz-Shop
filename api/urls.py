@@ -6,9 +6,9 @@ from order.views import initiate_payment,payment_success,payment_cancel, payment
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewset, basename="products")
-router.register('category', CategoryViewSet)
-router.register('carts', CartViewSet, basename="carts")
-router.register('orders', OrderViewSet, basename="orders")
+router.register('category', CategoryViewSet, basename="category")
+router.register('carts', CartViewSet, basename="cart")
+router.register('orders', OrderViewSet, basename="order")
 
 product_router = routers.NestedDefaultRouter(router, 'products', lookup='product')
 product_router.register('review', ReviewViewSet, basename='product-review')
