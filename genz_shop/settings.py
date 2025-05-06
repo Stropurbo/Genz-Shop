@@ -28,10 +28,11 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'drf_yasg',
-
+    'corsheaders',
 ]
 
 MIDDLEWARE = [    
+    "corsheaders.middleware.CorsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -58,6 +59,11 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
 ]
 
 INTERNAL_IPS = [
