@@ -23,12 +23,12 @@ class ProductImageSerializer(serializers.ModelSerializer):
 class ProductSerializers(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
     price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
-    # category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
-    category = CategorySerializer()
+    category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
+    category_details = CategorySerializer(source='category', read_only=True)
     
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description','price','price_with_tax','stock','category','created_at','updated_at', 'images']
+        fields = ['id', 'name', 'description','price','price_with_tax','stock','category_details','category','created_at','updated_at', 'images']
     
     def calculate_tax(self, product):   
         return round(product.price * Decimal(1.1), 2)
