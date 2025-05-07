@@ -7,10 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-zu2un4x34&7zlqf_1gqoqv(6^c70lnn61qrul1_8(7-5&la3yw'
 
-DEBUG = True
-
-ALLOWED_HOSTS = [".vercel.app", '127.0.0.1']
-AUTH_USER_MODEL = 'users.User'
+DEBUG = False
 
 
 INSTALLED_APPS = [
@@ -72,6 +69,8 @@ CORS_ALLOWED_ORIGINS = [
 
 ]
     
+ALLOWED_HOSTS = [".vercel.app", '127.0.0.1']
+AUTH_USER_MODEL = 'users.User'
 
 
 INTERNAL_IPS = [

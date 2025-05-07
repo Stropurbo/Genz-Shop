@@ -1,3 +1,4 @@
+from xml.dom import ValidationErr
 from product.models import Product, Category, Review, ProductImage
 from product.serializers import ProductSerializers, CategorySerializer, ReviewSerializer,ProductImageSerializer
 from django.db.models import Count
@@ -28,8 +29,13 @@ class ProductImageViewSet(ModelViewSet):
     def get_queryset(self):
         return ProductImage.objects.filter(product_id = self.kwargs.get('product_pk'))
     
-    def perform_create(self, serializer):   
-        serializer.save(product_id = self.kwargs.get('product_pk'))
+    def perform_create(self, serializer):
+        try:
+            product = Product.objects.get(id=self.kwargs.get('product_pk'))
+            serializer.save(product=product)
+        except Product.DoesNotExist:
+            raise ValidationErr("Product not found.")
+
 
 class CategoryViewSet(ModelViewSet):
     serializer_class = CategorySerializer
