@@ -153,6 +153,8 @@ SIMPLE_JWT = {
 
 }
 
+# frontend protocol and domain update for activation link
+
 DJOSER = {
     'EMAIL_FRONTEND_PROTOCOL' : config('FRONTEND_PROTOCOL'),
     'EMAIL_FRONTEND_DOMAIN': config('FRONTEND_DOMAIN'),
