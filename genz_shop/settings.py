@@ -65,7 +65,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'genz_shop.wsgi.app'
 
 CORS_ALLOWED_ORIGINS = [
-"http://localhost:5173",
+"https://genzshop-frontend-vak6.vercel.app",
 
 ]
     
