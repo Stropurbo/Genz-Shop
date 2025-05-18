@@ -66,7 +66,7 @@ WSGI_APPLICATION = 'genz_shop.wsgi.app'
 
 CORS_ALLOWED_ORIGINS = [
 "https://genzshop-frontend-vak6.vercel.app",
-
+"http://localhost:5173",    
 ]
     
 ALLOWED_HOSTS = [".vercel.app", '127.0.0.1']
