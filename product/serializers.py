@@ -5,9 +5,10 @@ from django.contrib.auth import get_user_model
 
 class CategorySerializer(serializers.ModelSerializer):
     product_count = serializers.SerializerMethodField()
+    image = serializers.ImageField(required=False)
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'product_count']
+        fields = ['id', 'name', 'description', 'image' , 'product_count']
 
     def get_product_count(self, obj):
         return getattr(obj, 'product_count', 0)
