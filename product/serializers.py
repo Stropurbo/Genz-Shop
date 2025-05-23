@@ -32,6 +32,10 @@ class ProductSerializers(serializers.ModelSerializer):
         fields = ['id', 'name', 'description','price','price_with_tax','stock','category_details','category','created_at','updated_at', 'images', 'discount', 'discount_price']
     
     def calculate_tax(self, product):   
+        if product.discount and product.discount > 0:
+            discount_amount = product.price * (product.discount / Decimal(100))
+            discount_price = product.price - discount_amount
+            return round(discount_price * Decimal(1.1), 2)
         return round(product.price * Decimal(1.1), 2)
     
     def validate_price(self, price):
