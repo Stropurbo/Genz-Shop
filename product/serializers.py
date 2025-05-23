@@ -25,7 +25,7 @@ class ProductSerializers(serializers.ModelSerializer):
     price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
     category_details = CategorySerializer(source='category', read_only=True)
-    discount_price = serializers.SerializerMethodField()
+    discount_price = serializers.SerializerMethodField(method_name="get_discount_price")
     
     class Meta:
         model = Product
