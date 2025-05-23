@@ -25,10 +25,11 @@ class ProductSerializers(serializers.ModelSerializer):
     price_with_tax = serializers.SerializerMethodField(method_name="calculate_tax")
     category = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all())
     category_details = CategorySerializer(source='category', read_only=True)
+    discount_price = serializers.SerializerMethodField()
     
     class Meta:
         model = Product
-        fields = ['id', 'name', 'description','price','price_with_tax','stock','category_details','category','created_at','updated_at', 'images']
+        fields = ['id', 'name', 'description','price','price_with_tax','stock','category_details','category','created_at','updated_at', 'images', 'discount', 'discount_price']
     
     def calculate_tax(self, product):   
         return round(product.price * Decimal(1.1), 2)
@@ -37,6 +38,12 @@ class ProductSerializers(serializers.ModelSerializer):
         if price < 0:
             raise serializers.ValidationError("Price not less than 0.")
         return price 
+    
+    def get_discount_price(self, product):
+        if product.discount and product.discount > 0:
+            discount_amount = product.price * (product.discount / Decimal(100))
+            return round(product.price - discount_amount, 2)
+        return product.price
     
 
 class ReviewSerializer(serializers.ModelSerializer):
