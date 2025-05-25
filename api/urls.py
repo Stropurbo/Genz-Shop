@@ -3,12 +3,14 @@ from product.views import ProductViewset, CategoryViewSet, ReviewViewSet, Produc
 from order.views import CartViewSet, CartItemViewSet, OrderViewSet
 from rest_framework_nested import routers
 from order.views import initiate_payment,payment_success,payment_cancel, payment_fail, HasOrderProduct
+from blog.views import BlogViewSet
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewset, basename="products")
 router.register('category', CategoryViewSet, basename="category")
 router.register('carts', CartViewSet, basename="cart")
 router.register('orders', OrderViewSet, basename="order")
+router.register('blogs', BlogViewSet, basename="blog")
 
 product_router = routers.NestedDefaultRouter(router, 'products', lookup='product')
 product_router.register('review', ReviewViewSet, basename='product-review')
@@ -27,6 +29,6 @@ urlpatterns = [
     path('payment/success/', payment_success, name='payment_success'),
     path('payment/fail/', payment_fail, name='payment_fail'),
     path('payment/cancel/', payment_cancel, name='payment_cancel'),
-    path('has_order/<int:product_id>/', HasOrderProduct.as_view()),
+    path('has_order/<int:product_id>/', HasOrderProduct.as_view()),    
 
 ]
