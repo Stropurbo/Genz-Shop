@@ -2,7 +2,7 @@ from rest_framework import serializers
 from blog.models import BlogModel
 
 class BlogSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(required=True)
+    image = serializers.ImageField(required=False)
 
     class Meta:
         model = BlogModel
