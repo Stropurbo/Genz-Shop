@@ -1,0 +1,8 @@
+from django.db import models
+
+
+class GetMailModel(models.Model):
+    mail = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.mail

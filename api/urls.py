@@ -4,6 +4,7 @@ from order.views import CartViewSet, CartItemViewSet, OrderViewSet
 from rest_framework_nested import routers
 from order.views import initiate_payment,payment_success,payment_cancel, payment_fail, HasOrderProduct
 from blog.views import BlogViewSet
+from getupdate.views import MailViewSet
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewset, basename="products")
@@ -11,6 +12,7 @@ router.register('category', CategoryViewSet, basename="category")
 router.register('carts', CartViewSet, basename="cart")
 router.register('orders', OrderViewSet, basename="order")
 router.register('blogs', BlogViewSet, basename="blog")
+router.register('getupdate', MailViewSet, basename="getupdate")
 
 product_router = routers.NestedDefaultRouter(router, 'products', lookup='product')
 product_router.register('review', ReviewViewSet, basename='product-review')
