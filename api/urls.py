@@ -5,6 +5,7 @@ from rest_framework_nested import routers
 from order.views import initiate_payment,payment_success,payment_cancel, payment_fail, HasOrderProduct
 from blog.views import BlogViewSet
 from getupdate.views import MailViewSet
+from users.views import AdminUserViewSet
 
 router = routers.DefaultRouter()
 router.register('products', ProductViewset, basename="products")
@@ -13,6 +14,7 @@ router.register('carts', CartViewSet, basename="cart")
 router.register('orders', OrderViewSet, basename="order")
 router.register('blogs', BlogViewSet, basename="blog")
 router.register('getupdate', MailViewSet, basename="getupdate")
+router.register('admin/user', AdminUserViewSet, basename="adminuser")
 
 product_router = routers.NestedDefaultRouter(router, 'products', lookup='product')
 product_router.register('review', ReviewViewSet, basename='product-review')

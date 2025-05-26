@@ -1,9 +1,14 @@
-from rest_framework import viewsets, mixins
+from rest_framework import viewsets, filters
 from getupdate.serializers import GetMailSerializer
 from getupdate.models import GetMailModel
 
-class MailViewSet(mixins.CreateModelMixin,
-    viewsets.ModelViewSet):
+class MailViewSet(viewsets.ModelViewSet):
     serializer_class = GetMailSerializer
-    queryset = GetMailModel.objects.all()
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['mail']
+    ordering_fields = ['id', 'mail']
+
+    def get_queryset(self):
+        return GetMailModel.objects.all()
+    
 
