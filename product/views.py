@@ -22,6 +22,16 @@ class ProductViewset(ModelViewSet):
 
     def get_queryset(self):
         return Product.objects.prefetch_related('images').all()
+    
+    def perform_update(self, serializer):
+        product = serializer.save()
+        images = self.request.FILES.getlist('images')
+
+        if images:        
+            product.images.all().delete()
+            for image in images:
+                ProductImage.objects.create(product=product, image=image)
+
 
 class ProductImageViewSet(ModelViewSet):
     serializer_class = ProductImageSerializer
