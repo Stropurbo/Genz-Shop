@@ -129,7 +129,6 @@ USE_TZ = True
 BACKEND_URL = config('BACKEND_URL')
 FRONTEND_URL = config('FRONTEND_URL')
 
-
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
