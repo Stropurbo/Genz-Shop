@@ -19,7 +19,6 @@ class AddCartItemSerializer(serializers.ModelSerializer):
         model = CartItem
         fields = ['id', 'product_id', 'quantity']
 
-
     def save(self, **kwargs):
         cart_id = self.context['cart_id']
         product_id = self.validated_data['product_id']
@@ -99,10 +98,8 @@ class CreateOrderSerializer(serializers.Serializer):
         except ValueError as e:
             raise serializers.ValidationError(str(e))
 
-  
     def to_representation(self, instance):
         return OrderSerializer(instance).data
-
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product = SimpleProductSerializer()

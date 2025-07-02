@@ -13,6 +13,7 @@ from rest_framework.decorators import api_view
 from sslcommerz_lib import SSLCOMMERZ
 from django.conf import settings as projectsetting
 from rest_framework.views import APIView
+
 class CartViewSet(CreateModelMixin,RetrieveModelMixin, DestroyModelMixin, GenericViewSet):
     serializer_class = Allsz.CartSerializer
     permission_classes = [IsAuthenticated]
